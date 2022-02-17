@@ -1,0 +1,312 @@
+;-------------------------------------------------------
+; File: lvXPRSv.inf
+; Logitech Video2 Camera Installation file
+; Copyright (c) 1996-2004 Logitech Inc.
+;-------------------------------------------------------
+
+[Version]
+LayoutFile=Layout.inf, Layout1.inf, Layout2.inf		
+signature="$CHICAGO$"
+Class=Image
+ClassGUID={6bdd1fc6-810f-11d0-bec7-08002be2092f}
+Provider=%PVD%
+CatalogFile=lvXPRSv.cat
+DriverVer=02/14/2004, 8.2.0.1189
+
+[Manufacturer]
+%LogitechMfg%=Logitech,nt
+
+[Logitech]
+%PID_0840_DD%=PID_0840,USB\VID_046D&PID_0840            ; Express
+%PID_0840_DD%=PID_0840,USB\VID_046D&PID_0870            ; Express (new)
+
+[Logitech.NT]
+%PID_0840_DD%=PID_0840.XP,USB\VID_046D&PID_0840           ; Express
+%PID_0840_DD%=PID_0840.XP,USB\VID_046D&PID_0870           ; Express (new)
+
+[SourceDisksNames]
+1=%DISK_NAME%,,,
+
+[SourceDisksFiles]
+LVCD.sys=1
+LVUI2.dll=1
+LVUI2RC.dll=1
+lvcodec2.dll=1
+lvcoinst.dll=1
+lvcoinst.ini=1
+LVUSBSta.sys=1
+lvWIAext.dll=1
+
+[DestinationDirs]
+DefaultDestDir=11 ; system
+DelDrivers=11
+CopyUserDrv=11
+CopyUserDrvNT=11
+LVUI.CopyFiles=11
+MISC.CopyFiles=10,TWAIN_32\QuickCam      ; Twain
+LVfWWDM32.DelFile=10                      ; delete on Windows upgrade
+CopyCoInstaller=11
+PID_0840.CopyDrivers=10,system32\drivers  
+USBMonitor.CopyFiles=10,system32\drivers
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[PID_0840]
+Include=    ks.inf, kscaptur.inf, ksfilter.inf
+Needs=      KS.Registration, KSCAPTUR.Registration
+AddReg=     PID_0840.AddReg, VFW.AddReg, Common.AddReg, LVCAM2_Prop.AddReg, LVCam2_Prop_BW.AddReg, AppRegister.AddReg
+DelFiles=   DelDrivers, LVfWWDM32.DelFile
+CopyFiles=  PID_0840.CopyDrivers, CopyUserDrv, LVUI.CopyFiles, MISC.CopyFiles, CopyCoInstaller
+DelReg=     Win95.DelReg
+UpdateInis= Win95.UpdateIni, LVfWWDM.UpdateIni, CODECS.UpdateIni
+VendorSetup=lvcoinst.dll,SetupEntryPoint PID_0840
+SubClass=StillImage
+DeviceType=3
+DeviceSubType=0x1
+Capabilities=0x31
+DeviceData=QuickCam.DeviceData
+ICMProfiles=%ICM_Prfl%
+DriverVer=02/14/2004, 8.2.0.1189
+
+[PID_0840.NT]
+Include=    ks.inf, kscaptur.inf, ksfilter.inf
+Needs=      KS.Registration, KSCAPTUR.Registration.NT
+AddReg=     PID_0840.AddReg, VFW.AddReg.NT, Common.AddReg, LVCAM2_Prop.AddReg, LVCam2_Prop_BW.AddReg, AppRegister.AddReg
+CopyFiles=  PID_0840.CopyDrivers, CopyUserDrvNT, LVUI.CopyFiles, MISC.CopyFiles,USBMonitor.CopyFiles
+UpdateInis= CODECS.UpdateIni
+DriverVer=02/14/2004, 8.2.0.1189
+
+[PID_0840.XP]
+Include=    ks.inf, kscaptur.inf, ksfilter.inf
+Needs=      KS.Registration, KSCAPTUR.Registration.NT
+AddReg=     PID_0840.AddReg, VFW.AddReg.NT, Common.AddReg, LVCAM2_Prop.AddReg, LVCam2_Prop_BW.AddReg, AppRegister.AddReg
+CopyFiles=  PID_0840.CopyDrivers, CopyUserDrvNT, LVUI.CopyFiles, MISC.CopyFiles,USBMonitor.CopyFiles
+UpdateInis= CODECS.UpdateIni
+SubClass=StillImage
+DeviceType=3
+DeviceSubType=0x1
+Capabilities=0x31
+DeviceData=QuickCam.DeviceData
+ICMProfiles=%ICM_Prfl%
+DriverVer=02/14/2004, 8.2.0.1189
+
+[PID_0840.NT.CoInstallers]
+CopyFiles=CopyCoInstaller
+AddReg=CoInstaller.AddReg
+
+[PID_0840.XP.CoInstallers]
+CopyFiles=CopyCoInstaller
+AddReg=CoInstaller.AddReg
+
+[PID_0840.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,lvcd.sys
+HKR,,EnumPropPages32,,"Lvui2.dll,EnumPropPages"
+HKR,,LVFunctions,0x10001,0x01
+HKR,,LVFeatures,0x10001,0x00
+HKR,,LVCategories,0x10001,0x1111
+HKLM,"%KEY_CONFERENCING%\%PID_0840_DD%",dwImageSizes,0x1,40,05,40,06
+HKLM,"%KEY_CONFERENCING%\%PID_0840_DD%",dwStreamingMode,0x1,01,00,00,00
+HKLM,"%KEY_CONFERENCING%\%PID_0840_DD%",dwDialogs,0x1,02,00,00,00
+HKLM,"%KEY_CONFERENCING%\%PID_0840_DD%",dwNumColors,0x1,2C,00,00,00
+
+[PID_0840.CopyDrivers]
+stream.sys		; Required.
+lvcd.sys
+
+[PID_0840.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,PID_0840.Interface
+
+[PID_0840.NT.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,PID_0840.Interface
+
+[PID_0840.XP.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,PID_0840.Interface
+
+[PID_0840.Interface]
+AddReg=PID_0840.Intf.AddReg
+
+[PID_0840.Intf.AddReg]
+HKR,,CLSID,,%ProxyVCap.CLSID%
+HKR,,FriendlyName,,%PID_0840_DD%
+HKR,,ExtensionDLL,,%ExtensionDLL%
+
+[PID_0840.NT.Services]
+AddService = QCDonner,0x00000002,PID_0840.ServiceInstall
+
+[PID_0840.XP.Services]
+AddService = QCDonner,0x00000002,PID_0840.ServiceInstall
+
+[PID_0840.ServiceInstall]
+DisplayName   = %PID_0840_DD%(PID_0840)
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_DEMAND_START%
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+ServiceBinary = %12%\LVCD.sys
+
+[CoInstaller.AddReg]
+HKR,,CoInstallers32,0x00010000,"lvcoinst.dll,LvCoInstaller"
+
+[Common.AddReg]
+HKR,,HardwareConfig,1,1
+HKR,,USDClass,,"{0527d1d0-88c2-11d2-82c7-00c04f8ec183}"
+HKR,,OkToHibernate,3,01
+
+[QuickCam.DeviceData] 
+Server=local
+UI DLL=sti.dll
+UI Class ID={7FACF624-63F9-4fe9-81F1-C65CBDA79305}
+
+[AppRegister.AddReg]
+HKLM,%REG_APPS%"\Arrival\890","ApplicationPath",,%DualCamApp%
+HKLM,%REG_APPS%"\Arrival\900","ApplicationPath",,%DualCamApp%
+HKLM,%REG_APPS%"\Arrival\901","ApplicationPath",,%DualCamApp%
+HKLM,%REG_APPS%"\Arrival\960","ApplicationPath",,%DualCamApp%
+HKLM,%REG_APPS%"\Arrival\905","ApplicationPath",,%DualCamApp%
+HKLM,%REG_APPS%"\Arrival\905","FirstTime",0x10001,0x1
+HKLM,%REG_APPS%"\QuickSync","ApplicationPath",,%QuickSyncApp%
+HKLM,%REG_APPS%"\QuickSync","ApplicationArgument",,%QuickSyncArg%
+
+[Win95.DelReg]
+HKLM,"System\CurrentControlSet\Control\MediaResources\msvideo\msvideo.lvfw"
+HKLM,"System\CurrentControlSet\Control\MediaResources\msvideo\msvideo.LP35"
+
+[VFW.AddReg]
+HKLM,%QC_DRVS%,"OEM",,%PVD%
+HKLM,%QC_DRVS%,"VFW",,%LVfWWDMDriverDesc%
+
+[VFW.AddReg.NT]
+HKLM,%QC_DRVS%,"OEM",,%PVD%
+HKLM,%QC_DRVS%,"VFW",,%LVfWWDMDriverDesc%
+HKLM,%MMDrivers%,MSVideo,,vfwwdm32.dll
+
+[Win95.UpdateIni]
+system.ini,drivers,"msvideo.lvfw=*"
+system.ini,drivers,"MSVideo.LP35=*"
+
+[LVfWWDM.UpdateIni]
+system.ini,drivers,,"MSVideo.VfWWDM=vfwwdm.drv"
+
+[CODECS.UpdateIni]
+system.ini,drivers32,,"VIDC.YVU9=lvcodec2.dll"
+system.ini,drivers32,,"VIDC.I420=lvcodec2.dll"
+system.ini,drivers32,,"VIDC.YUY2=lvcodec2.dll"
+system.ini,drivers32,,"VIDC.UYVY=lvcodec2.dll"
+
+[LVfWWDM32.DelFile]
+vfwwdm32.dll 
+
+[DelDrivers]
+ks.sys,,,1
+stream.sys,,,1
+lvcam.sys,,,1
+lvcodek.sys,,,1
+imagecls.sys,,,1
+
+[CopyUserDrv]
+lvcodec2.dll			; Don't replace if older
+
+[CopyUserDrvNT]
+lvcodec2.dll
+
+[LVUI.CopyFiles]
+LVUI2.dll
+LVUI2RC.dll
+
+[MISC.CopyFiles]
+lvWIAext.dll
+
+[USBMonitor.CopyFiles]
+LVUSBSta.sys
+
+[CopyCoInstaller]
+lvcoinst.dll
+lvcoinst.ini
+
+[LVCam2_Prop_BW.AddReg]
+HKLM,%MedSets%\%CLSID_PropSet_8116_PPages%
+HKLM,%MedSets%\%CLSID_PropSet_8116_PPages%\PropertyPages
+HKLM,%MedSets%\%CLSID_PropSet_8116_PPages%\PropertyPages\%CLSID_PP_Bandwidth%,,,%CLSID_PP_Bandwidth_Desc%
+HKCR,CLSID\%CLSID_PP_Bandwidth%,,,%CLSID_PP_Bandwidth_Desc%
+HKCR,CLSID\%CLSID_PP_Bandwidth%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Bandwidth%\InprocServer32,ThreadingModel,,Both
+
+[LVCAM2_Prop.AddReg]
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages
+HKCR,CLSID\%CLSID_PP_Advanced%,,,%CLSID_PP_Advanced_Desc%
+HKCR,CLSID\%CLSID_PP_Advanced%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Advanced%\InprocServer32,ThreadingModel,,Both
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages\%CLSID_PP_Advanced%,,,%CLSID_PP_Advanced_Desc%
+HKCR,CLSID\%CLSID_PP_Status%,,,%CLSID_PP_Status_Desc%
+HKCR,CLSID\%CLSID_PP_Status%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Status%\InprocServer32,ThreadingModel,,Both
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages\%CLSID_PP_Status%,,,%CLSID_PP_Status_Desc%
+HKCR,CLSID\%CLSID_PP_Device%,,,%CLSID_PP_Device_Desc%
+HKCR,CLSID\%CLSID_PP_Device%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Device%\InprocServer32,ThreadingModel,,Both
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages\%CLSID_PP_Device%,,,%CLSID_PP_Device_Desc%
+HKCR,CLSID\%CLSID_PP_Troubleshooting%,,,%CLSID_PP_Troubleshooting_Desc%
+HKCR,CLSID\%CLSID_PP_Troubleshooting%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Troubleshooting%\InprocServer32,ThreadingModel,,Both
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages\%CLSID_PP_Troubleshooting%,,,%CLSID_PP_Troubleshooting_Desc%
+HKCR,CLSID\%CLSID_PP_Traffic%,,,%CLSID_PP_Traffic_Desc%
+HKCR,CLSID\%CLSID_PP_Traffic%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Traffic%\InprocServer32,ThreadingModel,,Both
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages\%CLSID_PP_Traffic%,,,%CLSID_PP_Traffic_Desc%
+HKCR,CLSID\%CLSID_PP_Debug%,,,%CLSID_PP_Debug_Desc%
+HKCR,CLSID\%CLSID_PP_Debug%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Debug%\InprocServer32,ThreadingModel,,Both
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages\%CLSID_PP_Debug%,,,%CLSID_PP_Debug_Desc%
+HKCR,CLSID\%CLSID_PP_Registers%,,,%CLSID_PP_Registers_Desc%
+HKCR,CLSID\%CLSID_PP_Registers%\InprocServer32,,,%11%\%ExtensionDLL%
+HKCR,CLSID\%CLSID_PP_Registers%\InprocServer32,ThreadingModel,,Both
+HKLM,%MedSets%\%CLSID_PropSet_LVCam_PPages%\PropertyPages\%CLSID_PP_Registers%,,,%CLSID_PP_Registers_Desc%
+
+[Strings]
+ProxyVCap.CLSID="{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+KSCATEGORY_CAPTURE="{65E8773D-8F56-11D0-A3B9-00A0C9223196}"
+SERVICE_KERNEL_DRIVER=1
+SERVICE_DEMAND_START=3
+SERVICE_ERROR_NORMAL=1
+MMDrivers="Software\Microsoft\Windows NT\CurrentVersion\Drivers32"
+MedSets="SYSTEM\CurrentControlSet\Control\MediaSets"
+ExtensionDLL = "LVUI2.dll"
+DualCamApp="Qsync.exe"
+QuickSyncApp="Qsync.exe"
+QuickSyncArg="/QuickSync"
+ICM_Prfl="sRGB Color Space Profile.icm"
+REG_APPS="Software\Logitech\LVComS\CurrentVersion\RegisteredApplications\{D2B479C0-C3F2-11D1-B014-00AA00CF90F9}"
+QC_DRVS="Software\Logitech\QuickCam\Drivers"
+PVD="Logitech"
+LogitechMfg="Logitech"
+DISK_NAME="Logitech USB Video Camera Disk"
+PID_0840_DD="Logitech QuickCam Express"
+LVfWWDMDriverDesc="Logitech USB Video Camera"
+CAM2.ExtensionDLL="CamExL20.dll"
+CLSID_PropSet_LVCam_PPages="{38760DCD-13F4-4a73-8802-520C31143999}"
+CLSID_PropSet_8116_PPages="{2d04fd49-e88b-4d51-bd09-4dfb6d26a460}"
+CLSID_PP_Advanced="{1159F2AF-F989-4d11-8B34-9550029269BB}"
+CLSID_PP_Advanced_Desc="Advanced properties"
+CLSID_PP_Status="{09AC4892-81B7-4d39-B235-8F0DB0DAF4F8}"
+CLSID_PP_Status_Desc="Status"
+CLSID_PP_Device="{0932B8A4-BBB4-4bc0-A8AB-91C626950C75}"
+CLSID_PP_Device_Desc="Device Settings"
+CLSID_PP_Troubleshooting="{517539A3-905F-4755-9F94-D91B095A07CC}"
+CLSID_PP_Troubleshooting_Desc="Troubleshooting"
+CLSID_PP_Traffic="{DE7371F4-4CCD-47cd-B12B-8887C9125895}"
+CLSID_PP_Traffic_Desc="USB Traffic"
+CLSID_PP_Debug="{5872C980-0AAF-4cdb-A62D-4F453DA2EFAD}"
+CLSID_PP_Debug_Desc="Debug"
+CLSID_PP_Registers="{4C8DD17E-7079-4c7e-96E5-A7AFDB12F132}"
+CLSID_PP_Registers_Desc="Registers"
+CLSID_PP_Bandwidth="{4FE8FFE1-FCCA-49c4-A363-525AB7C5B7CF}"
+CLSID_PP_Bandwidth_Desc="Bandwidth Control"
+CLSID_SAA8116="{F83865C0-92C3-11d3-B41E-0010DC973BDB}"
+CLSID_PropPage_Image_SAA8116="{F83865C2-92C3-11d3-B41E-0010DC973BDB}"
+CLSID_PropPage_Camera_SAA8116="{F83865C3-92C3-11d3-B41E-0010DC973BDB}"
+KEY_CONFERENCING="Software\Microsoft\Conferencing\CaptureDevices"
+
+
+
